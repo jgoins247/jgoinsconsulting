@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>J Goins Consulting — UX & Digital Strategy Consultant</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-500: #888888;
+      --gray-700: #444444;
+      --accent: #0f172a;
+      --highlight: #2563eb;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font);
+      color: var(--black);
+      background: var(--white);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--gray-200);
+      z-index: 100;
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: var(--black);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--gray-700);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-cta {
+      background: var(--black);
+      color: var(--white) !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-size: 14px !important;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover { background: var(--highlight) !important; color: var(--white) !important; }
+
+    /* SECTIONS */
+    section { padding: 100px 40px; }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* HERO */
+    #hero {
+      padding-top: 160px;
+      padding-bottom: 120px;
+      background: var(--white);
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 20px;
+    }
+
+    .hero-headline {
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: var(--black);
+      margin-bottom: 24px;
+      max-width: 720px;
+    }
+
+    .hero-headline span {
+      color: var(--highlight);
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--gray-700);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--highlight); }
+
+    .btn-secondary {
+      color: var(--gray-700);
+      font-size: 15px;
+      text-decoration: none;
+      border-bottom: 1px solid var(--gray-200);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .btn-secondary:hover { color: var(--black); border-color: var(--black); }
+
+    /* LOGOS / SOCIAL PROOF */
+    #proof {
+      padding: 48px 40px;
+      background: var(--gray-100);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .proof-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .proof-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      white-space: nowrap;
+    }
+
+    .proof-companies {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .proof-company {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gray-500);
+      letter-spacing: -0.3px;
+    }
+
+    /* WHAT I DO */
+    #services {
+      background: var(--white);
+    }
+
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 16px;
+    }
+
+    .section-headline {
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: var(--black);
+      margin-bottom: 16px;
+      max-width: 640px;
+    }
+
+    .section-sub {
+      font-size: 17px;
+      color: var(--gray-700);
+      max-width: 560px;
+      margin-bottom: 64px;
+      line-height: 1.7;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .service-card {
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 32px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .service-card:hover {
+      border-color: var(--black);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+
+    .service-number {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--highlight);
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+
+    .service-title {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .service-desc {
+      font-size: 14px;
+      color: var(--gray-700);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .service-includes {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .service-includes li {
+      font-size: 13px;
+      color: var(--gray-500);
+      padding-left: 14px;
+      position: relative;
+    }
+
+    .service-includes li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gray-200);
+    }
+
+    .service-price {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-200);
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+
+    .service-price strong {
+      font-size: 17px;
+      color: var(--black);
+      font-weight: 700;
+    }
+
+    /* HOW IT WORKS */
+    #process {
+      background: var(--gray-100);
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .process-step {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      background: var(--black);
+      color: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    /* CASE STUDY */
+    #work {
+      background: var(--white);
+    }
+
+    .case-study {
+      border: 1px solid var(--gray-200);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .case-study-header {
+      background: var(--accent);
+      color: var(--white);
+      padding: 48px;
+    }
+
+    .case-tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: var(--white);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .case-title {
+      font-size: clamp(22px, 3vw, 32px);
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .case-sub {
+      font-size: 16px;
+      opacity: 0.75;
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    .case-body {
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+
+    @media (max-width: 640px) {
+      .case-body { grid-template-columns: 1fr; }
+    }
+
+    .case-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--highlight);
+      margin-bottom: 16px;
+    }
+
+    .case-findings {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .case-findings li {
+      font-size: 14px;
+      color: var(--gray-700);
+      padding-left: 20px;
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .case-findings li::before {
+      content: '↳';
+      position: absolute;
+      left: 0;
+      color: var(--highlight);
+      font-size: 12px;
+    }
+
+    .case-outcomes {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .outcome {
+      padding: 20px;
+      background: var(--gray-100);
+      border-radius: 10px;
+    }
+
+    .outcome-stat {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--black);
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+
+    .outcome-label {
+      font-size: 13px;
+      color: var(--gray-700);
+    }
+
+    /* ABOUT */
+    #about {
+      background: var(--black);
+      color: var(--white);
+    }
+
+    #about .section-label { color: var(--highlight); }
+
+    #about .section-headline { color: var(--white); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      margin-top: 48px;
+    }
+
+    @media (max-width: 700px) {
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    .about-body {
+      font-size: 17px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.8;
+    }
+
+    .about-body p + p { margin-top: 20px; }
+
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .about-stat {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 24px;
+    }
+
+    .about-stat-num {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -2px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .about-stat-label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* INTAKE FORM */
+    #contact {
+      background: var(--white);
+    }
+
+    .form-wrapper {
+      max-width: 640px;
+    }
+
+    .form-note {
+      font-size: 14px;
+      color: var(--gray-500);
+      margin-bottom: 40px;
+      padding: 16px 20px;
+      background: var(--gray-100);
+      border-radius: 8px;
+      border-left: 3px solid var(--highlight);
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 8px;
+      letter-spacing: -0.1px;
+    }
+
+    label span {
+      color: var(--highlight);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: var(--font);
+      color: var(--black);
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--black);
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+    }
+
+    textarea { resize: vertical; min-height: 120px; }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 560px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+
+    .form-divider {
+      border: none;
+      border-top: 1px solid var(--gray-200);
+      margin: 36px 0;
+    }
+
+    .form-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 24px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--gray-200);
+      border-radius: 4px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .checkbox-item span {
+      font-size: 14px;
+      color: var(--gray-700);
+    }
+
+    .submit-btn {
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      padding: 16px 36px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .submit-btn:hover { background: var(--highlight); }
+
+    .submit-note {
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-top: 12px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--gray-100);
+      border-top: 1px solid var(--gray-200);
+      padding: 40px;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .footer-note {
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+
+    /* RESPONSIVE NAV */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      section { padding: 80px 20px; }
+      #hero { padding-top: 120px; padding-bottom: 80px; }
+      #proof { padding: 32px 20px; }
+      .case-study-header { padding: 32px; }
+      .case-body { padding: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">J Goins Consulting</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Start a Project</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <p class="hero-eyebrow">UX & Digital Strategy Consultant</p>
+    <h1 class="hero-headline">Your digital experience is <span>losing students, patients, and customers.</span> I fix that.</h1>
+    <p class="hero-sub">Senior UX strategy and design for healthcare, higher education, and fintech organizations. AI-assisted research. No endless meetings. Just clear deliverables that move the needle.</p>
+    <div class="hero-cta-group">
+      <a href="#contact" class="btn-primary">Start a Project →</a>
+      <a href="#work" class="btn-secondary">See the work</a>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div id="proof">
+  <div class="proof-inner">
+    <span class="proof-label">Experience with</span>
+    <div class="proof-companies">
+      <span class="proof-company">Verifone</span>
+      <span class="proof-company">Assurant</span>
+      <span class="proof-company">Refersion</span>
+      <span class="proof-company">CHCP</span>
+      <span class="proof-company">USG</span>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <p class="section-label">What I Do</p>
+    <h2 class="section-headline">Strategy and design that works — handed off to your team to build.</h2>
+    <p class="section-sub">I deliver UX strategy, research, and design. Your engineering team or dev agency handles implementation. No scope creep, no ambiguity.</p>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+        <p class="service-number">01</p>
+        <h3 class="service-title">Consumer Journey Audit</h3>
+        <p class="service-desc">A complete map of what your users experience from first search to conversion — benchmarked against your top competitors.</p>
+        <ul class="service-includes">
+          <li>Google & AI Overview search analysis</li>
+          <li>Social media presence audit</li>
+          <li>Landing page & lead form review</li>
+          <li>Competitor benchmarking (2–3 orgs)</li>
+          <li>Prioritized recommendations report</li>
+        </ul>
+        <div class="service-price">Fixed scope · 7-day delivery · <strong>Contact for pricing</strong></div>
+      </div>
+
+      <div class="service-card">
+        <p class="service-number">02</p>
+        <h3 class="service-title">UX Audit & Redesign Strategy</h3>
+        <p class="service-desc">A deep review of your current product or website with wireframes, IA recommendations, and a clear redesign direction ready for your dev team.</p>
+        <ul class="service-includes">
+          <li>Heuristic evaluation</li>
+          <li>Information architecture review</li>
+          <li>Wireframes & annotated lo-fi designs</li>
+          <li>Navigation & content hierarchy</li>
+          <li>Dev-ready design direction document</li>
+        </ul>
+        <div class="service-price">Fixed scope · 10–14 day delivery · <strong>Contact for pricing</strong></div>
+      </div>
+
+      <div class="service-card">
+        <p class="service-number">03</p>
+        <h3 class="service-title">Full UX Engagement</h3>
+        <p class="service-desc">Ongoing strategic UX partnership. I embed with your team on a retainer basis — covering research, architecture, design direction, and AI platform evaluation.</p>
+        <ul class="service-includes">
+          <li>UX strategy & product direction</li>
+          <li>Ongoing research & competitive intel</li>
+          <li>Design system guidance</li>
+          <li>AI platform & CMS evaluation</li>
+          <li>Stakeholder-ready presentations</li>
+        </ul>
+        <div class="service-price">Monthly retainer · <strong>Contact for pricing</strong></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <p class="section-label">How It Works</p>
+    <h2 class="section-headline">No kickoff calls. No check-ins. Just results.</h2>
+    <p class="section-sub">Fill out the intake form. I take it from there and deliver polished, actionable work on a clear timeline.</p>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-num">1</div>
+        <h4 class="step-title">Fill the Intake Form</h4>
+        <p class="step-desc">Tell me your org, your audience, your competitors, and what's not working. The form covers everything I need to get started.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">2</div>
+        <h4 class="step-title">I Scope & Confirm</h4>
+        <p class="step-desc">Within 24 hours I'll confirm the scope and timeline by email. A brief async exchange if needed — no calls required.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">3</div>
+        <h4 class="step-title">Deep Research & Analysis</h4>
+        <p class="step-desc">I run the full audit — search, social, UX, competitive — using AI-assisted research tools to move fast without cutting corners.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">4</div>
+        <h4 class="step-title">Polished Deliverable</h4>
+        <p class="step-desc">You receive a complete, presentation-ready document with findings, visuals, and prioritized recommendations your team can act on immediately.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<section id="work">
+  <div class="container">
+    <p class="section-label">Featured Work</p>
+    <h2 class="section-headline">Real work. Real results.</h2>
+    <p class="section-sub">A recent engagement with a multi-campus healthcare college navigating a full digital transformation.</p>
+
+    <div class="case-study">
+      <div class="case-study-header">
+        <span class="case-tag">Higher Education · Healthcare</span>
+        <h3 class="case-title">Consumer Journey Audit — College of Health Care Professions</h3>
+        <p class="case-sub">A prospective-student-perspective audit of CHCP's full digital journey vs. two key competitors, from Google search through lead form submission.</p>
+      </div>
+      <div class="case-body">
+        <div>
+          <p class="case-section-label">Key Findings</p>
+          <ul class="case-findings">
+            <li>Client owned the #1 Google Local Pack position for key program searches — direct competitors were completely absent</li>
+            <li>Post-submit experience had a critical gap: polished confirmation flow on one path, rough experience on the program page where most search traffic actually lands</li>
+            <li>Follow-up email landing in Promotions with no clear next steps — a significant enrollment leakage point</li>
+            <li>Social presence significantly behind competitors for prospective student engagement across TikTok and Instagram</li>
+            <li>Navigation inconsistencies between approved wireframes and hi-fi designs identified and documented for dev alignment</li>
+          </ul>
+        </div>
+        <div>
+          <p class="case-section-label">Scope of Work</p>
+          <div class="case-outcomes">
+            <div class="outcome">
+              <div class="outcome-stat">3</div>
+              <div class="outcome-label">Schools audited side-by-side across the full digital journey</div>
+            </div>
+            <div class="outcome">
+              <div class="outcome-stat">5</div>
+              <div class="outcome-label">Journey stages mapped: Search → Discover → Explore → Engage → Convert</div>
+            </div>
+            <div class="outcome">
+              <div class="outcome-stat">10+</div>
+              <div class="outcome-label">Campuses covered in the broader website redesign engagement</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">About</p>
+    <h2 class="section-headline">10 years. Complex products. Real industries.</h2>
+    <div class="about-grid">
+      <div class="about-body">
+        <p>I'm a Senior UX and Product Designer with a decade of experience building digital experiences across healthcare, fintech, higher education, and enterprise tools.</p>
+        <p>I've designed global payment flows used by Nordstrom, PayPal, and Alipay. I've simplified insurance products for millions of users at Assurant. And I've led full UX strategy engagements for organizations navigating complex digital transformations.</p>
+        <p>I work best as a strategic partner — not a pair of hands. I translate ambiguous business problems into clear, actionable UX direction that your engineering team can actually build from.</p>
+        <p>I use AI tools throughout my process to move faster, research deeper, and deliver more thorough work than a traditional UX engagement. You get senior judgment at accelerated speed.</p>
+      </div>
+      <div class="about-stats">
+        <div class="about-stat">
+          <div class="about-stat-num">10</div>
+          <div class="about-stat-label">Years of UX & product design experience</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-num">4</div>
+          <div class="about-stat-label">Industries: Healthcare, Fintech, Higher Ed, Enterprise</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-num">0</div>
+          <div class="about-stat-label">Required kickoff calls. Async-first by design.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTAKE FORM -->
+<section id="contact">
+  <div class="container">
+    <p class="section-label">Start a Project</p>
+    <h2 class="section-headline">Tell me what you're working on.</h2>
+    <p class="section-sub">Fill this out and I'll come back to you within 24 hours with a scope and timeline. No calls needed to get started.</p>
+
+    <div class="form-wrapper">
+      <p class="form-note">⚡ No kickoff call required. This form gives me everything I need to scope your project and get to work.</p>
+
+      <form action="#" method="POST">
+
+        <p class="form-section-title">About You</p>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name <span>*</span></label>
+            <input type="text" id="name" name="name" placeholder="Jane Smith" required />
+          </div>
+          <div class="form-group">
+            <label for="title">Your Title <span>*</span></label>
+            <input type="text" id="title" name="title" placeholder="VP of Marketing" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Work Email <span>*</span></label>
+            <input type="email" id="email" name="email" placeholder="jane@yourorg.com" required />
+          </div>
+          <div class="form-group">
+            <label for="org">Organization <span>*</span></label>
+            <input type="text" id="org" name="org" placeholder="Acme Health College" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="website">Current Website <span>*</span></label>
+          <input type="url" id="website" name="website" placeholder="https://yoursite.com" required />
+        </div>
+
+        <hr class="form-divider" />
+        <p class="form-section-title">About Your Project</p>
+
+        <div class="form-group">
+          <label for="service">What type of engagement are you looking for? <span>*</span></label>
+          <select id="service" name="service" required>
+            <option value="" disabled selected>Select one</option>
+            <option value="journey-audit">Consumer Journey Audit — from $3,500</option>
+            <option value="ux-audit">UX Audit & Redesign Strategy — from $6,500</option>
+            <option value="retainer">Full UX Engagement / Retainer — from $5,000/mo</option>
+            <option value="unsure">Not sure — help me figure it out</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="audience">Who is your primary audience? <span>*</span></label>
+          <input type="text" id="audience" name="audience" placeholder="e.g. Prospective students, healthcare patients, small business owners" required />
+        </div>
+
+        <div class="form-group">
+          <label for="competitors">Who are your top 2–3 competitors? <span>*</span></label>
+          <input type="text" id="competitors" name="competitors" placeholder="e.g. State University, Regional Health System, local competitor" required />
+        </div>
+
+        <div class="form-group">
+          <label for="problem">What's the core problem you need solved? <span>*</span></label>
+          <textarea id="problem" name="problem" placeholder="e.g. Our website gets traffic but conversion is low. Students fill out the lead form but don't enroll. Our navigation is confusing and we're about to redesign..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>What deliverables matter most to you?</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item">
+              <input type="checkbox" name="deliverables" value="research" />
+              <span>Research & competitive analysis</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="deliverables" value="journey-map" />
+              <span>Consumer journey mapping</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="deliverables" value="wireframes" />
+              <span>Wireframes & IA</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="deliverables" value="ai-eval" />
+              <span>AI / CMS platform evaluation</span>
+            </label>
+            <label class="checkbox-item">
+              <input type="checkbox" name="deliverables" value="strategy-doc" />
+              <span>Executive-ready strategy document</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="timeline">What's your timeline? <span>*</span></label>
+          <select id="timeline" name="timeline" required>
+            <option value="" disabled selected>Select one</option>
+            <option value="asap">ASAP — I need this fast</option>
+            <option value="2-4-weeks">2–4 weeks</option>
+            <option value="1-2-months">1–2 months</option>
+            <option value="flexible">Flexible — quality over speed</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="budget">Approximate budget</label>
+          <select id="budget" name="budget">
+            <option value="" disabled selected>Select one</option>
+            <option value="under-10k">Under $10,000</option>
+            <option value="10k-25k">$10,000 – $25,000</option>
+            <option value="25k-plus">$25,000+</option>
+            <option value="unsure">Not sure yet</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="anything-else">Anything else I should know?</label>
+          <textarea id="anything-else" name="anything-else" placeholder="Internal politics, hard deadlines, stakeholder dynamics, previous failed projects — the more context the better." style="min-height:90px;"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Project Brief →</button>
+        <p class="submit-note">I'll respond within 24 hours by email. No sales call required.</p>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <span class="footer-name">J Goins Consulting</span>
+    <span class="footer-note">Strategy and design only. Implementation by your team.</span>
+  </div>
+</footer>
+
+</body>
+</html>
