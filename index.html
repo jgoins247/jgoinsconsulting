@@ -915,7 +915,8 @@
     <div class="form-wrapper">
       <p class="form-note">⚡ No kickoff call required. This form gives me everything I need to scope your project and get to work.</p>
 
-            <form action="https://formspree.io/f/jb4goins@gmail.com" method="POST">
+                  <div id="form-success" style="display:none; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:32px; text-align:center; margin-top:24px;"><h3 style="color:#15803d; margin-bottom:8px;">Got it — thank you!</h3>h3><p style="color:#166534;">I'll review your brief and follow up within 24 hours by email. No calls required.</p>p></div>
+            <form id="intake-form" action="https://formspree.io/f/xojkbklo" method="POST">
 
         <p class="form-section-title">About You</p>
 
@@ -1028,10 +1029,24 @@
           <textarea id="anything-else" name="anything-else" placeholder="Internal politics, hard deadlines, stakeholder dynamics, previous failed projects — the more context the better." style="min-height:90px;"></textarea>
         </div>
 
-        <button type="submit" class="submit-btn">Submit Project Brief →</button>
+                <button type="submit" class="submit-btn" id="submit-btn">Submit Project Brief →</button>button>
         <p class="submit-note">I'll respond within 24 hours by email. No sales call required.</p>
 
       </form>
+      <script>
+          document.getElementById('intake-form').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const btn = document.getElementById('submit-btn');
+                btn.textContent = 'Sending…';
+                btn.disabled = true;
+                try {
+                        const res = await fetch(this.action, { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } });
+                        if (res.ok) { this.style.display = 'none'; document.getElementById('form-success').style.display = 'block'; }
+                        else { btn.textContent = 'Submit Project Brief →'; btn.disabled = false; alert('Something went wrong. Please email jb4goins@gmail.com directly.'); }
+                } catch(err) { btn.textContent = 'Submit Project Brief →'; btn.disabled = false; alert('Something went wrong. Please email jb4goins@gmail.com directly.'); }
+          });
+      </script>
+      </script>
     </div>
   </div>
 </section>
