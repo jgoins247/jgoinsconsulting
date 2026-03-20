@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Outreach Generator — James Goins UX</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #ffffff;
+      --gray-100: #f5f5f5;
+      --gray-200: #e8e8e8;
+      --gray-500: #888888;
+      --gray-700: #444444;
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --green: #16a34a;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--gray-100);
+      color: var(--black);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .app {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    .header {
+      margin-bottom: 32px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--black);
+    }
+
+    .header p {
+      font-size: 14px;
+      color: var(--gray-500);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--blue);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* CARD */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 14px;
+      background: var(--blue);
+      border-radius: 2px;
+    }
+
+    /* API KEY */
+    .api-key-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .api-key-row input {
+      flex: 1;
+    }
+
+    .key-status {
+      font-size: 12px;
+      margin-top: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .key-status.saved {
+      display: block;
+      background: #f0fdf4;
+      color: var(--green);
+      border: 1px solid #bbf7d0;
+    }
+
+    /* FORM */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: -0.1px;
+    }
+
+    label .hint {
+      font-weight: 400;
+      color: var(--gray-500);
+      margin-left: 4px;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    input[type="password"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: var(--font);
+      color: var(--black);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23888' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 36px;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    /* TONE CHIPS */
+    .tone-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tone-chip {
+      padding: 6px 14px;
+      border: 1px solid var(--gray-200);
+      border-radius: 20px;
+      font-size: 13px;
+      color: var(--gray-700);
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--white);
+      user-select: none;
+    }
+
+    .tone-chip:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .tone-chip.active {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: var(--white);
+      font-weight: 600;
+    }
+
+    /* GENERATE BUTTON */
+    .generate-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .generate-btn:hover { background: var(--blue-dark); }
+    .generate-btn:disabled { background: var(--gray-200); color: var(--gray-500); cursor: not-allowed; }
+
+    /* LOADING */
+    .loading {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 32px;
+      color: var(--gray-500);
+      font-size: 14px;
+    }
+
+    .loading.active { display: flex; }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--gray-200);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .loading-step {
+      font-size: 13px;
+      color: var(--gray-500);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .loading-step.visible { opacity: 1; }
+    .loading-step.done { color: var(--green); }
+
+    /* OUTPUT */
+    .output-card {
+      display: none;
+    }
+
+    .output-card.active {
+      display: block;
+    }
+
+    .output-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--gray-200);
+      padding-bottom: 0;
+    }
+
+    .output-tab {
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-500);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .output-tab:hover { color: var(--black); }
+
+    .output-tab.active {
+      color: var(--blue);
+      border-bottom-color: var(--blue);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* EMAIL OUTPUT */
+    .email-field {
+      margin-bottom: 16px;
+    }
+
+    .email-field-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 6px;
+    }
+
+    .email-field-value {
+      font-size: 14px;
+      color: var(--black);
+      padding: 10px 14px;
+      background: var(--gray-100);
+      border-radius: 8px;
+      line-height: 1.5;
+    }
+
+    .email-body-area {
+      font-size: 14px;
+      color: var(--black);
+      padding: 16px;
+      background: var(--gray-100);
+      border-radius: 8px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      min-height: 200px;
+    }
+
+    /* FINDINGS */
+    .findings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .finding-item {
+      padding: 14px 16px;
+      background: var(--gray-100);
+      border-radius: 8px;
+      border-left: 3px solid var(--blue);
+    }
+
+    .finding-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+
+    .finding-desc {
+      font-size: 13px;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    /* ACTION BUTTONS */
+    .action-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: var(--font);
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid var(--gray-200);
+      background: var(--white);
+      color: var(--black);
+    }
+
+    .action-btn:hover {
+      border-color: var(--black);
+    }
+
+    .action-btn.primary {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .action-btn.primary:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .action-btn.copied {
+      background: var(--green);
+      border-color: var(--green);
+      color: var(--white);
+    }
+
+    /* ERROR */
+    .error-msg {
+      display: none;
+      padding: 12px 16px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #dc2626;
+      margin-top: 12px;
+    }
+
+    .error-msg.active { display: block; }
+
+    /* HISTORY */
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--gray-100);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .history-item:hover { background: var(--gray-200); }
+
+    .history-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    .history-url {
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+
+    .history-date {
+      font-size: 11px;
+      color: var(--gray-500);
+    }
+
+    .empty-state {
+      font-size: 13px;
+      color: var(--gray-500);
+      text-align: center;
+      padding: 24px;
+    }
+
+    /* EDITABLE */
+    .editable-area {
+      width: 100%;
+      padding: 16px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: var(--font);
+      color: var(--black);
+      background: var(--white);
+      outline: none;
+      line-height: 1.8;
+      min-height: 280px;
+      resize: vertical;
+      transition: border-color 0.2s;
+    }
+
+    .editable-area:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <h1>Outreach Generator</h1>
+      <span class="badge">⚡ AI-Powered</span>
+    </div>
+    <p>Paste a prospect's website → get a personalized cold email that sounds like you spent an hour on their site.</p>
+  </div>
+
+  <!-- API KEY -->
+  <div class="card">
+    <div class="card-title">Anthropic API Key</div>
+    <div class="api-key-row">
+      <input type="password" id="apiKey" placeholder="sk-ant-..." />
+      <button class="action-btn primary" onclick="saveKey()">Save Key</button>
+    </div>
+    <div class="key-status" id="keyStatus">✓ API key ready to use</div>
+    <p style="font-size:12px;color:var(--gray-500);margin-top:8px;">Your key is stored locally in your browser and never sent anywhere except Anthropic's API. Get yours at <strong>console.anthropic.com</strong></p>
+    <div style="margin-top:20px;border-top:1px solid var(--gray-200);padding-top:20px;">
+      <label style="font-size:12px;font-weight:600;display:block;margin-bottom:6px;">Your Consulting Site URL <span style="font-weight:400;color:var(--gray-500)">(appended to every email)</span></label>
+      <input type="url" id="siteUrl" placeholder="https://yoursite.com" value="https://yoursite.com" style="max-width:400px;" />
+    </div>
+  </div>
+
+  <!-- INPUT FORM -->
+  <div class="card">
+    <div class="card-title">Prospect Details</div>
+    <div class="form-grid">
+
+      <div class="form-group">
+        <label>Prospect's Name <span class="hint">(person you're emailing)</span></label>
+        <input type="text" id="prospectName" placeholder="Alex Rivera" />
+      </div>
+
+      <div class="form-group">
+        <label>Their Title</label>
+        <input type="text" id="prospectTitle" placeholder="Director of Digital Marketing" />
+      </div>
+
+      <div class="form-group">
+        <label>Organization Name</label>
+        <input type="text" id="orgName" placeholder="Acme Healthcare Group" />
+      </div>
+
+      <div class="form-group">
+        <label>Industry / Type</label>
+        <select id="industry">
+          <option value="higher-education">Higher Education</option>
+          <option value="healthcare">Healthcare / Medical</option>
+          <option value="fintech">Fintech / Financial Services</option>
+          <option value="enterprise-saas">Enterprise SaaS</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-group full">
+        <label>Their Website URL <span class="hint">(the page you want analyzed)</span></label>
+        <input type="url" id="websiteUrl" placeholder="https://theirwebsite.com" />
+      </div>
+
+      <div class="form-group full">
+        <label>Why are you reaching out? <span class="hint">(optional context)</span></label>
+        <textarea id="context" placeholder="e.g. They just posted a job listing for a UX Designer, or I noticed their site navigation is confusing and their lead forms have a lot of friction..."></textarea>
+      </div>
+
+      <div class="form-group full">
+        <label>Email Tone</label>
+        <div class="tone-chips">
+          <div class="tone-chip active" data-tone="consultative">Consultative</div>
+          <div class="tone-chip" data-tone="direct">Direct & Punchy</div>
+          <div class="tone-chip" data-tone="warm">Warm & Human</div>
+          <div class="tone-chip" data-tone="executive">Executive-to-Executive</div>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="generate-btn" id="generateBtn" onclick="generateOutreach()">
+      <span>⚡</span> Analyze Site & Generate Email
+    </button>
+    <div class="error-msg" id="errorMsg"></div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="card loading" id="loadingState">
+    <div class="spinner"></div>
+    <div class="loading-steps">
+      <div class="loading-step" id="step1">Fetching website content...</div>
+      <div class="loading-step" id="step2">Identifying UX issues and opportunities...</div>
+      <div class="loading-step" id="step3">Crafting personalized email...</div>
+    </div>
+  </div>
+
+  <!-- OUTPUT -->
+  <div class="card output-card" id="outputCard">
+    <div class="output-tabs">
+      <div class="output-tab active" data-tab="email" onclick="switchTab('email', this)">Email Draft</div>
+      <div class="output-tab" data-tab="findings" onclick="switchTab('findings', this)">UX Findings</div>
+      <div class="output-tab" data-tab="followup" onclick="switchTab('followup', this)">Follow-up</div>
+    </div>
+
+    <!-- EMAIL TAB -->
+    <div class="tab-content active" id="tab-email">
+      <div class="email-field">
+        <div class="email-field-label">To</div>
+        <div class="email-field-value" id="outputTo">—</div>
+      </div>
+      <div class="email-field">
+        <div class="email-field-label">Subject Line</div>
+        <div class="email-field-value" id="outputSubject">—</div>
+      </div>
+      <div class="email-field">
+        <div class="email-field-label">Email Body <span style="font-weight:400;color:var(--gray-500)">(editable)</span></div>
+        <textarea class="editable-area" id="outputBody"></textarea>
+      </div>
+      <div class="action-row">
+        <button class="action-btn primary" id="copyBtn" onclick="copyEmail()">Copy Full Email</button>
+        <button class="action-btn" onclick="regenerate()">Regenerate</button>
+        <button class="action-btn" onclick="saveToHistory()">Save to History</button>
+      </div>
+    </div>
+
+    <!-- FINDINGS TAB -->
+    <div class="tab-content" id="tab-findings">
+      <div class="findings-list" id="findingsList"></div>
+    </div>
+
+    <!-- FOLLOW-UP TAB -->
+    <div class="tab-content" id="tab-followup">
+      <div class="email-field">
+        <div class="email-field-label">Follow-up Email (Send if no reply after 5 days)</div>
+        <textarea class="editable-area" id="outputFollowup"></textarea>
+      </div>
+      <div class="action-row">
+        <button class="action-btn primary" id="copyFollowupBtn" onclick="copyFollowup()">Copy Follow-up</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- HISTORY -->
+  <div class="card">
+    <div class="card-title">Saved Outreach History</div>
+    <div class="history-list" id="historyList">
+      <div class="empty-state">No saved outreach yet. Generate and save emails to track your pipeline.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // STATE
+  let selectedTone = 'consultative';
+  let currentResult = null;
+  let history = JSON.parse(localStorage.getItem('outreach_history') || '[]');
+
+  // INIT
+  window.onload = () => {
+    // Restore saved API key
+    const savedKey = localStorage.getItem('ux_api_key');
+    if (savedKey) {
+      document.getElementById('apiKey').value = savedKey;
+      document.getElementById('keyStatus').classList.add('saved');
+      document.getElementById('keyStatus').textContent = '✓ API key ready to use';
+    }
+
+    // Restore saved site URL
+    const savedUrl = localStorage.getItem('ux_site_url');
+    if (savedUrl) document.getElementById('siteUrl').value = savedUrl;
+
+    // Pre-fill from URL params if coming from prospect tracker
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('org')) {
+      document.getElementById('prospectName').value = params.get('name') || '';
+      document.getElementById('prospectTitle').value = params.get('title') || '';
+      document.getElementById('orgName').value = params.get('org') || '';
+      document.getElementById('websiteUrl').value = params.get('website') || '';
+      document.getElementById('context').value = params.get('context') || '';
+      const industry = params.get('industry');
+      if (industry) document.getElementById('industry').value = industry;
+
+      // Show a banner so user knows it was pre-filled
+      const banner = document.createElement('div');
+      banner.style.cssText = 'background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:13px;color:#2563eb;margin-bottom:16px;';
+      banner.textContent = '⚡ Pre-filled from Prospect Tracker — review details and generate your email.';
+      document.getElementById('generateBtn').parentNode.insertBefore(banner, document.getElementById('generateBtn'));
+    }
+    renderHistory();
+  };
+
+  // TONE CHIPS
+  document.querySelectorAll('.tone-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.tone-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      selectedTone = chip.dataset.tone;
+    });
+  });
+
+  // SAVE KEY
+  function saveKey() {
+    const key = document.getElementById('apiKey').value.trim();
+    if (!key || key.length < 20) {
+      alert('Please paste your full Anthropic API key.');
+      return;
+    }
+    localStorage.setItem('ux_api_key', key);
+    const siteUrl = document.getElementById('siteUrl').value.trim();
+    if (siteUrl) localStorage.setItem('ux_site_url', siteUrl);
+    document.getElementById('keyStatus').classList.add('saved');
+    document.getElementById('keyStatus').textContent = '✓ API key saved permanently';
+  }
+
+  // SWITCH TABS
+  function switchTab(tabName, el) {
+    document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('tab-' + tabName).classList.add('active');
+  }
+
+  // LOADING ANIMATION
+  function animateLoading() {
+    const steps = ['step1', 'step2', 'step3'];
+    steps.forEach((id, i) => {
+      setTimeout(() => {
+        document.getElementById(id).classList.add('visible');
+      }, i * 1800);
+    });
+  }
+
+  // GENERATE
+  async function generateOutreach() {
+    const apiKey = document.getElementById('apiKey').value.trim();
+    if (!apiKey) {
+      showError('Please enter and save your Anthropic API key first.');
+      return;
+    }
+
+    const prospectName = document.getElementById('prospectName').value.trim();
+    const prospectTitle = document.getElementById('prospectTitle').value.trim();
+    const orgName = document.getElementById('orgName').value.trim();
+    const industry = document.getElementById('industry').value;
+    const websiteUrl = document.getElementById('websiteUrl').value.trim();
+    const context = document.getElementById('context').value.trim();
+
+    if (!websiteUrl) {
+      showError('Please enter the prospect\'s website URL.');
+      return;
+    }
+
+    // UI state
+    document.getElementById('generateBtn').disabled = true;
+    document.getElementById('loadingState').classList.add('active');
+    document.getElementById('outputCard').classList.remove('active');
+    document.getElementById('errorMsg').classList.remove('active');
+    animateLoading();
+
+    const toneDescriptions = {
+      'consultative': 'warm but authoritative consultant tone — show genuine expertise, not sales pressure',
+      'direct': 'punchy and direct — get to the point fast, respects their time',
+      'warm': 'conversational and human — feels like a peer reaching out, not a vendor',
+      'executive': 'peer-to-peer executive tone — confident, strategic, no fluff'
+    };
+
+    const prompt = `You are helping James Goins, a Senior UX and Product Designer with 10 years of experience across healthcare, fintech, and higher education, write a personalized cold outreach email to a prospect.
+
+James's background:
+- 10 years UX/Product Design experience
+- Designed global payment flows for Verifone (used by Nordstrom, PayPal, Alipay)
+- UX work at Assurant, Refersion, USG
+- Currently doing full website redesign + consumer journey audits for The College of Health Care Professions (a multi-campus healthcare college)
+- Specializes in: consumer journey audits, UX strategy, information architecture, wireframes, competitive analysis
+- He delivers strategy and design — client's engineering team handles implementation
+- Works async — no kickoff calls required, intake form → deliverable
+
+PROSPECT INFO:
+- Name: ${prospectName || 'the recipient'}
+- Title: ${prospectTitle || 'marketing/digital leader'}
+- Organization: ${orgName || 'their organization'}
+- Industry: ${industry}
+- Website: ${websiteUrl}
+- Context James has: ${context || 'none provided'}
+
+TONE: ${toneDescriptions[selectedTone]}
+
+Your task:
+1. Analyze what you know about ${orgName || 'this type of organization'} in the ${industry} space
+2. Identify 2-3 SPECIFIC and REALISTIC UX problems that organizations like this commonly have (lead form friction, confusing navigation, poor mobile experience, weak post-submit experience, invisible in search, slow page load, poor CTA hierarchy, etc.)
+3. Write a cold email from James that references these specific problems in a way that sounds like he personally spent time on their site
+4. Keep it SHORT — under 150 words for the body. No fluff.
+5. DO NOT sound like a template or mass email
+6. End with a soft CTA — not "let's jump on a call" but something like "happy to share what I'd look at first if it's useful"
+
+Respond in this EXACT JSON format (no markdown, just raw JSON):
+{
+  "subject": "subject line here",
+  "body": "full email body here with \\n for line breaks",
+  "findings": [
+    {"title": "Finding 1 title", "description": "Specific description of the UX issue"},
+    {"title": "Finding 2 title", "description": "Specific description of the UX issue"},
+    {"title": "Finding 3 title", "description": "Specific description of the UX issue"}
+  ],
+  "followup": "follow-up email to send after 5 days of no reply"
+}`;
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'content-type': 'application/json',
+          'anthropic-dangerous-direct-browser-calls': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-opus-4-6',
+          max_tokens: 1024,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error?.message || 'API request failed');
+      }
+
+      const data = await response.json();
+      const raw = data.content[0].text.trim();
+
+      // Parse JSON
+      let result;
+      try {
+        result = JSON.parse(raw);
+      } catch {
+        // Try to extract JSON from the response
+        const match = raw.match(/\{[\s\S]*\}/);
+        if (match) result = JSON.parse(match[0]);
+        else throw new Error('Could not parse AI response. Please try again.');
+      }
+
+      currentResult = result;
+      renderOutput(result, prospectName, prospectTitle, orgName);
+
+    } catch (err) {
+      showError('Error: ' + err.message);
+    } finally {
+      document.getElementById('generateBtn').disabled = false;
+      document.getElementById('loadingState').classList.remove('active');
+      ['step1','step2','step3'].forEach(id => {
+        document.getElementById(id).classList.remove('visible', 'done');
+      });
+    }
+  }
+
+  function renderOutput(result, name, title, org) {
+    // To field
+    const toText = name ? `${name}${title ? `, ${title}` : ''}${org ? ` — ${org}` : ''}` : 'Recipient';
+    document.getElementById('outputTo').textContent = toText;
+
+    // Subject
+    document.getElementById('outputSubject').textContent = result.subject || '—';
+
+    // Body — append site link
+    const siteUrl = document.getElementById('siteUrl').value.trim() || 'https://yoursite.com';
+    const bodyWithLink = (result.body || '') + `\n\nYou can see examples of my work here: ${siteUrl}`;
+    document.getElementById('outputBody').value = bodyWithLink;
+
+    // Findings
+    const findingsList = document.getElementById('findingsList');
+    findingsList.innerHTML = '';
+    (result.findings || []).forEach(f => {
+      const div = document.createElement('div');
+      div.className = 'finding-item';
+      div.innerHTML = `<div class="finding-title">${f.title}</div><div class="finding-desc">${f.description}</div>`;
+      findingsList.appendChild(div);
+    });
+
+    // Follow-up
+    document.getElementById('outputFollowup').value = result.followup || '';
+
+    // Show output
+    document.getElementById('outputCard').classList.add('active');
+
+    // Switch to email tab
+    document.querySelectorAll('.output-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelector('[data-tab="email"]').classList.add('active');
+    document.getElementById('tab-email').classList.add('active');
+
+    // Scroll to output
+    document.getElementById('outputCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function copyEmail() {
+    const subject = document.getElementById('outputSubject').textContent;
+    const body = document.getElementById('outputBody').value;
+    const full = `Subject: ${subject}\n\n${body}`;
+    navigator.clipboard.writeText(full).then(() => {
+      const btn = document.getElementById('copyBtn');
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy Full Email';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  function copyFollowup() {
+    const text = document.getElementById('outputFollowup').value;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('copyFollowupBtn');
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'Copy Follow-up';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
+  function regenerate() {
+    generateOutreach();
+  }
+
+  function saveToHistory() {
+    const name = document.getElementById('prospectName').value.trim();
+    const org = document.getElementById('orgName').value.trim();
+    const url = document.getElementById('websiteUrl').value.trim();
+    const subject = document.getElementById('outputSubject').textContent;
+    const body = document.getElementById('outputBody').value;
+
+    const entry = {
+      id: Date.now(),
+      name: name || 'Unknown',
+      org: org || 'Unknown',
+      url,
+      subject,
+      body,
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    };
+
+    history.unshift(entry);
+    if (history.length > 50) history.pop();
+    localStorage.setItem('outreach_history', JSON.stringify(history));
+    renderHistory();
+
+    const btn = document.querySelector('.action-btn:nth-child(3)');
+    if (btn) {
+      btn.textContent = '✓ Saved!';
+      setTimeout(() => btn.textContent = 'Save to History', 2000);
+    }
+  }
+
+  function renderHistory() {
+    const list = document.getElementById('historyList');
+    if (history.length === 0) {
+      list.innerHTML = '<div class="empty-state">No saved outreach yet. Generate and save emails to track your pipeline.</div>';
+      return;
+    }
+    list.innerHTML = history.map(h => `
+      <div class="history-item" onclick="loadHistory(${h.id})">
+        <div>
+          <div class="history-name">${h.name} — ${h.org}</div>
+          <div class="history-url">${h.url}</div>
+        </div>
+        <div class="history-date">${h.date}</div>
+      </div>
+    `).join('');
+  }
+
+  function loadHistory(id) {
+    const entry = history.find(h => h.id === id);
+    if (!entry) return;
+    document.getElementById('prospectName').value = entry.name;
+    document.getElementById('orgName').value = entry.org;
+    document.getElementById('websiteUrl').value = entry.url;
+    document.getElementById('outputSubject').textContent = entry.subject;
+    document.getElementById('outputBody').value = entry.body;
+    document.getElementById('outputCard').classList.add('active');
+    document.getElementById('outputCard').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.classList.add('active');
+  }
+</script>
+
+</body>
+</html>
