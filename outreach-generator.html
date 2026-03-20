@@ -671,6 +671,20 @@
 </div>
 
 <script>
+  // PASSWORD GATE
+  (function() {
+    const PASS = 'jgoins2024';
+    const stored = sessionStorage.getItem('ux_tool_auth');
+    if (stored !== PASS) {
+      const entered = prompt('Enter password to access this tool:');
+      if (entered !== PASS) {
+        document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#888;">Access denied.</div>';
+        throw new Error('Unauthorized');
+      }
+      sessionStorage.setItem('ux_tool_auth', PASS);
+    }
+  })();
+
   // STATE
   let selectedTone = 'consultative';
   let currentResult = null;
