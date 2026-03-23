@@ -15,7 +15,7 @@
         --gray-700: #444444;
         --accent: #0f172a;
         --highlight: #2563eb;
-        --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        --font: 'Inter', -apple-system, BlinkMacSystemFont, 'SegoeUI', sans-serif;
     }
     html { scroll-behavior: smooth; }
     body { font-family: var(--font); color: var(--black); background: var(--white); font-size: 16px; line-height: 1.6; }
@@ -441,9 +441,9 @@
                 btn.disabled = true;
                 try {
                     const res = await fetch(this.action, { method: 'POST', body: new FormData(this), headers: { 'Accept': 'application/json' } });
-                    if (res.ok) { this.style.display = 'none'; document.getElementById('form-success').style.display = 'block'; }
-                    else { btn.textContent = 'Submit Project Brief →'; btn.disabled = false; alert('Something went wrong. Please email jb4goins@gmail.com directly.'); }
-                } catch(err) { btn.textContent = 'Submit Project Brief →'; btn.disabled = false; alert('Something went wrong. Please email jb4goins@gmail.com directly.'); }
+                    if (res.ok) { this.style.display = 'none'; window.location.href = 'https://jgoinsconsulting.com/thank-you'; }
+                    else { btn.textContent = 'Submit Project Brief →'; btn.disabled = false; alert('Something went wrong. Please email hello@jgoinsconsulting.com directly.'); }
+                } catch(err) { btn.textContent = 'Submit Project Brief →'; btn.disabled = false; alert('Something went wrong. Please email hello@jgoinsconsulting.com directly.'); }
             });
             </script>
         </div>
