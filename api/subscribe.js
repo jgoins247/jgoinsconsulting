@@ -1,9 +1,7 @@
 // /api/subscribe.js - Vercel Serverless Function
-// Adds an email to Mailchimp and tags it with source
-
 const https = require('https');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -15,9 +13,9 @@ export default async function handler(req, res) {
 
   const apiKey = process.env.MAILCHIMP_API_KEY;
   const listId = process.env.MAILCHIMP_LIST_ID;
-  const dc = apiKey?.split('-').pop();
+  const dc = apiKey ? apiKey.split('-').pop() : null;
 
-  if (!apiKey || !listId) {
+  if (!apiKey || !listId || !dc) {
     console.warn('Mailchimp env vars not set');
     return res.status(200).json({ ok: true });
   }
@@ -65,7 +63,7 @@ export default async function handler(req, res) {
     });
 
     mcReq.on('error', (err) => {
-      console.error('Mailchimp request error:', err);
+      console.error('Mailchimp error:', err);
       res.status(200).json({ ok: true });
       resolve();
     });
@@ -73,4 +71,4 @@ export default async function handler(req, res) {
     mcReq.write(body);
     mcReq.end();
   });
-}
+};
