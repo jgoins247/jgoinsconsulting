@@ -1,11 +1,8 @@
 // /api/audit.js - Vercel Serverless Function
-// Fetches a landing page and runs it through Claude Haiku for CRO/UX analysis
-
 const https = require('https');
 const http = require('http');
-const { URL } = require('url');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -16,46 +13,29 @@ export default async function handler(req, res) {
   if (!url) return res.status(400).json({ error: 'URL is required' });
 
   let parsedUrl;
-  try { parsedUrl = new URL(url); } catch {
-    return res.status(400).json({ error: 'Invalid URL' });
-  }
+  try { parsedUrl = new URL(url); }
+  catch { return res.status(400).json({ error: 'Invalid URL' }); }
 
   let pageHtml = '';
-  try {
-    pageHtml = await fetchPage(parsedUrl.href);
-  } catch (err) {
-    return res.status(400).json({ error: 'Could not fetch that page: ' + err.message });
-  }
+  try { pageHtml = await fetchPage(parsedUrl.href); }
+  catch (err) { return res.status(400).json({ error: 'Could not fetch that page: ' + err.message }); }
 
   const trimmed = pageHtml.slice(0, 6000);
 
-  const systemPrompt = `You are a senior CRO and UX consultant. Analyze landing pages for conversion issues.
-Respond ONLY with valid JSON in this exact format, no markdown:
-{
-  "score": <integer 0-100>,
-  "summary": "<one sentence summary of the biggest problem>",
-  "findings": [
-    {
-      "title": "<short issue title>",
-      "severity": "<high|medium|low>",
-      "description": "<2 sentences explaining the problem and why it matters>",
-      "recommendation": "<specific actionable fix in 1 sentence>"
-    }
-  ]
-}
-Return 5-8 findings ordered by severity. Focus on: CTA placement, above-the-fold value prop, mobile experience, trust signals, form friction, copy clarity, social proof.`;
+  const systemPrompt = 'You are a senior CRO and UX consultant. Analyze landing pages for conversion issues. Respond ONLY with valid JSON, no markdown: { "score": <integer 0-100>, "summary": "<one sentence>", "findings": [ { "title": "<short title>", "severity": "<high|medium|low>", "description": "<2 sentences>", "recommendation": "<1 sentence fix>" } ] }. Return 5-8 findings ordered by severity. Focus on: CTA placement, above-the-fold value prop, mobile experience, trust signals, form friction, copy clarity, social proof.';
 
-  const userPrompt = 'Audit this landing page for CRO and UX issues.\n\nURL: ' + parsedUrl.href + '\n\nHTML (first 6000 chars):\n' + trimmed + '\n\nReturn JSON only.';
+  const userPrompt = 'Audit this landing page.\nURL: ' + parsedUrl.href + '\nHTML:\n' + trimmed + '\nReturn JSON only.';
 
   try {
     const claudeRes = await callClaude(systemPrompt, userPrompt);
-    const parsed = JSON.parse(claudeRes);
+    const cleaned = claudeRes.replace(/^```json\n?/, '').replace(/\n?```$/, '').trim();
+    const parsed = JSON.parse(cleaned);
     return res.status(200).json(parsed);
   } catch (err) {
-    console.error('Claude error:', err.message);
+    console.error('Error:', err.message);
     return res.status(500).json({ error: 'Audit failed. Please try again.' });
   }
-}
+};
 
 function fetchPage(url) {
   return new Promise((resolve, reject) => {
@@ -81,7 +61,7 @@ function callClaude(system, user) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
+      max_tokens: 1500,
       system,
       messages: [{ role: 'user', content: user }]
     });
