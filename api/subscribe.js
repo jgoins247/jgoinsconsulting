@@ -5,10 +5,11 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { email, source, url: auditUrl, name } = req.body || {};
+  const { email, source, name } = req.body || {};
   if (!email) return res.status(400).json({ error: 'Email is required' });
 
   const apiKey = process.env.MAILCHIMP_API_KEY;
@@ -21,13 +22,11 @@ module.exports = async function handler(req, res) {
   }
 
   const mergeFields = {};
-  if (auditUrl) mergeFields.AUDITURL = auditUrl.slice(0, 255);
   if (name) mergeFields.FNAME = name;
 
   const body = JSON.stringify({
     email_address: email,
     status: 'subscribed',
-    tags: [source || 'website'],
     merge_fields: mergeFields
   });
 
@@ -49,10 +48,10 @@ module.exports = async function handler(req, res) {
       mcRes.on('end', () => {
         try {
           const parsed = JSON.parse(data);
-          if (mcRes.statusCode === 200 || parsed.title === 'Member Exists') {
+          if (mcRes.statusCode === 200 || mcRes.statusCode === 201 || parsed.title === 'Member Exists') {
             res.status(200).json({ ok: true });
           } else {
-            console.error('Mailchimp error:', parsed);
+            console.error('Mailchimp error:', mcRes.statusCode, parsed);
             res.status(200).json({ ok: true });
           }
         } catch {
@@ -63,7 +62,7 @@ module.exports = async function handler(req, res) {
     });
 
     mcReq.on('error', (err) => {
-      console.error('Mailchimp error:', err);
+      console.error('Mailchimp request error:', err);
       res.status(200).json({ ok: true });
       resolve();
     });
