@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Conversion Component Index | Free Download</title>
+  <meta name="description" content="A free strategic reference mapping Atomic Design components to the conversion problems they fix. Download instantly." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0a0a0a; --blue: #2563eb; --blue-light: #3b82f6;
+      --gray-50: #f9fafb; --gray-200: #e5e7eb; --gray-400: #9ca3af;
+      --gray-600: #4b5563; --gray-800: #1f2937; --white: #ffffff; --green: #10b981;
+    }
+    body { font-family: 'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background: var(--gray-50); color: var(--gray-800); min-height: 100vh; display: flex; flex-direction: column; }
+    nav { background: var(--navy); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { color: var(--white); font-weight: 700; font-size: 1rem; text-decoration: none; }
+    .nav-link { color: rgba(255,255,255,0.5); font-size: 0.875rem; text-decoration: none; }
+    .nav-link:hover { color: var(--white); }
+    main { flex: 1; display: grid; grid-template-columns: 1fr 1fr; max-width: 1100px; margin: 0 auto; padding: 5rem 2rem; gap: 5rem; align-items: center; }
+    .left h1 { font-size: clamp(1.75rem,3.5vw,2.75rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1.25rem; }
+    .left h1 span { color: var(--blue); }
+    .left p { font-size: 1.05rem; color: var(--gray-600); line-height: 1.7; margin-bottom: 2rem; }
+    .what-inside { list-style: none; margin-bottom: 2rem; }
+    .what-inside li { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.9rem; color: var(--gray-600); padding: 0.4rem 0; }
+    .what-inside li::before { content: 'v'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .badge { display: inline-block; background: rgba(37,99,235,0.1); color: var(--blue); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.3rem 0.75rem; border-radius: 999px; margin-bottom: 1.25rem; }
+    .form-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 20px; padding: 2.5rem 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+    .form-card h2 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .form-card p { font-size: 0.875rem; color: var(--gray-400); margin-bottom: 1.75rem; }
+    .field { margin-bottom: 1rem; }
+    .field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--gray-600); margin-bottom: 0.4rem; }
+    .field input { width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--gray-200); border-radius: 8px; font-family: 'Inter',sans-serif; font-size: 0.95rem; color: var(--gray-800); outline: none; transition: border-color 0.15s; }
+    .field input:focus { border-color: var(--blue); }
+    .btn-download { width: 100%; background: var(--navy); color: var(--white); border: none; padding: 1rem; border-radius: 10px; font-family: 'Inter',sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 0.5rem; transition: background 0.15s; }
+    .btn-download:hover { background: #1a1a2e; }
+    .form-privacy { font-size: 0.75rem; color: var(--gray-400); text-align: center; margin-top: 1rem; }
+    .success-state { display: none; text-align: center; }
+    .success-state.active { display: block; }
+    .form-default.hidden { display: none; }
+    .success-icon { width: 64px; height: 64px; background: rgba(16,185,129,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 1.75rem; }
+    .success-state h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .success-state p { color: var(--gray-600); font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .btn-dl-link { display: inline-block; background: var(--blue); color: var(--white); padding: 0.875rem 2rem; border-radius: 8px; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+    footer { background: var(--navy); color: rgba(255,255,255,0.4); text-align: center; padding: 1.5rem; font-size: 0.8rem; }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    @media (max-width: 768px) { main { grid-template-columns: 1fr; padding: 3rem 1.5rem; gap: 2.5rem; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="/">J Goins Consulting</a>
+    <a class="nav-link" href="/audit">Free Page Audit &rarr;</a>
+  </nav>
+  <main>
+    <div class="left">
+      <div class="badge">Free Download</div>
+      <h1>The <span>Conversion Component</span> Index</h1>
+      <p>A strategic reference that maps every Atomic Design component to the conversion problem it fixes &mdash; and what breaks if you get it wrong.</p>
+      <ul class="what-inside">
+        <li>34 components mapped across Atoms, Molecules, Organisms, Templates &amp; Pages</li>
+        <li>Where each component belongs on the page and why</li>
+        <li>The exact conversion problem each one solves</li>
+        <li>What breaks (and costs you) when any component underperforms</li>
+        <li>Business impact for each finding</li>
+      </ul>
+      <p style="font-size:0.85rem;color:var(--gray-400);">Built for marketing directors, enrollment teams, and ecommerce operators who need to speak the language of conversion &mdash; not just design.</p>
+    </div>
+    <div>
+      <div class="form-card">
+        <div class="form-default" id="formDefault">
+          <h2>Get the free PDF</h2>
+          <p>Enter your email and we'll send it instantly.</p>
+          <div class="field">
+            <label for="dlEmail">Work Email</label>
+            <input type="email" id="dlEmail" placeholder="you@yourorg.com" autocomplete="email" />
+          </div>
+          <div class="field">
+            <label for="dlName">First Name</label>
+            <input type="text" id="dlName" placeholder="James" autocomplete="given-name" />
+          </div>
+          <button class="btn-download" id="dlBtn" onclick="handleDownload()">Download Free PDF &darr;</button>
+          <p class="form-privacy">No spam. Unsubscribe anytime.</p>
+        </div>
+        <div class="success-state" id="successState">
+          <div class="success-icon">&#10003;</div>
+          <h3>Here's your PDF</h3>
+          <p>Also check your inbox &mdash; we sent a copy there too.</p>
+          <a href="/Conversion_Component_Index.pdf" download class="btn-dl-link">Download Now &darr;</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <p>&copy; 2025 J Goins Consulting &middot; <a href="/">Home</a> &middot; <a href="mailto:hello@jgoinsconsulting.com">hello@jgoinsconsulting.com</a></p>
+  </footer>
+  <script>
+    async function handleDownload() {
+      const email = document.getElementById('dlEmail').value.trim();
+      const name = document.getElementById('dlName').value.trim();
+      if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+      const btn = document.getElementById('dlBtn');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      try {
+        await fetch('/api/subscribe', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email, name, source:'pdf-download'}) });
+      } catch {}
+      document.getElementById('formDefault').classList.add('hidden');
+      document.getElementById('successState').classList.add('active');
+    }
+    document.getElementById('dlEmail').addEventListener('keydown', e => { if (e.key === 'Enter') handleDownload(); });
+  </script>
+</body>
+</html>
