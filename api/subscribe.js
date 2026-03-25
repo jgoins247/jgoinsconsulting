@@ -30,6 +30,8 @@ module.exports = async function handler(req, res) {
     merge_fields: mergeFields
   });
 
+  console.log('Mailchimp request to:', dc + '.api.mailchimp.com', 'list:', listId);
+
   return new Promise((resolve) => {
     const options = {
       hostname: dc + '.api.mailchimp.com',
@@ -37,7 +39,7 @@ module.exports = async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'apikey ' + apiKey,
+        'Authorization': 'Basic ' + Buffer.from('anystring:' + apiKey).toString('base64'),
         'Content-Length': Buffer.byteLength(body),
       }
     };
@@ -46,6 +48,7 @@ module.exports = async function handler(req, res) {
       let data = '';
       mcRes.on('data', chunk => { data += chunk; });
       mcRes.on('end', () => {
+        console.log('Mailchimp status:', mcRes.statusCode, 'body:', data.slice(0, 300));
         try {
           const parsed = JSON.parse(data);
           if (mcRes.statusCode === 200 || mcRes.statusCode === 201 || parsed.title === 'Member Exists') {
