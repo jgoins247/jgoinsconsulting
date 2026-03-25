@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Landing Page Audit | J Goins Consulting</title>
+  <meta name="description" content="Paste your URL and get an instant CRO &amp; UX audit of your landing page. Free. No fluff. Built for enrollment, ecommerce, and lead gen pages." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #0a0a0a; --blue: #2563eb; --blue-light: #3b82f6;
+      --green: #10b981; --yellow: #f59e0b; --red: #ef4444;
+      --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+      --gray-400: #9ca3af; --gray-600: #4b5563; --gray-800: #1f2937; --white: #ffffff;
+    }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--gray-50); color: var(--gray-800); line-height: 1.6; }
+    nav { background: var(--navy); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { color: var(--white); font-weight: 700; font-size: 1rem; text-decoration: none; letter-spacing: -0.02em; }
+    .nav-cta { color: var(--blue-light); font-size: 0.875rem; font-weight: 500; text-decoration: none; }
+    .nav-cta:hover { text-decoration: underline; }
+    .hero { background: var(--navy); color: var(--white); padding: 5rem 2rem 4rem; text-align: center; }
+    .hero-badge { display: inline-block; background: rgba(37,99,235,0.2); border: 1px solid rgba(37,99,235,0.4); color: var(--blue-light); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.35rem 0.85rem; border-radius: 999px; margin-bottom: 1.5rem; }
+    .hero h1 { font-size: clamp(2rem,5vw,3.25rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; max-width: 700px; margin: 0 auto 1.25rem; }
+    .hero h1 span { color: var(--blue-light); }
+    .hero p { font-size: 1.1rem; color: rgba(255,255,255,0.65); max-width: 520px; margin: 0 auto 2.5rem; }
+    .audit-form-wrap { max-width: 640px; margin: 0 auto; }
+    .url-input-row { display: flex; gap: 0.75rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 0.5rem 0.5rem 0.5rem 1.25rem; align-items: center; }
+    .url-input-row input[type="url"] { flex: 1; background: transparent; border: none; outline: none; color: var(--white); font-family: 'Inter',sans-serif; font-size: 1rem; padding: 0.5rem 0; }
+    .url-input-row input[type="url"]::placeholder { color: rgba(255,255,255,0.3); }
+    .btn-audit { background: var(--blue); color: var(--white); border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-family: 'Inter',sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+    .btn-audit:hover { background: var(--blue-light); }
+    .btn-audit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .hero-note { margin-top: 1rem; font-size: 0.8rem; color: rgba(255,255,255,0.35); }
+    .loading-state { display: none; text-align: center; padding: 3rem 2rem; max-width: 500px; margin: 2rem auto 0; color: rgba(255,255,255,0.7); }
+    .loading-state.active { display: block; }
+    .spinner { width: 44px; height: 44px; border: 3px solid rgba(37,99,235,0.3); border-top-color: var(--blue-light); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1.25rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-steps { list-style: none; text-align: left; display: inline-block; }
+    .loading-steps li { padding: 0.3rem 0; font-size: 0.9rem; opacity: 0.4; transition: opacity 0.3s; }
+    .loading-steps li.active { opacity: 1; color: var(--blue-light); }
+    .loading-steps li.done { opacity: 0.7; }
+    .loading-steps li::before { content: 'o  '; }
+    .loading-steps li.active::before { content: '* '; }
+    .loading-steps li.done::before { content: 'v  '; }
+    .results-section { display: none; max-width: 780px; margin: 0 auto; padding: 3rem 1.5rem; }
+    .results-section.active { display: block; }
+    .results-header { text-align: center; margin-bottom: 2.5rem; }
+    .results-header h2 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .results-header p { color: var(--gray-600); font-size: 0.95rem; }
+    .score-ring-wrap { display: flex; justify-content: center; margin-bottom: 2rem; }
+    .score-ring { position: relative; width: 120px; height: 120px; }
+    .score-ring svg { transform: rotate(-90deg); }
+    .score-ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .score-number { font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+    .score-label { font-size: 0.7rem; color: var(--gray-400); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; }
+    .findings-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-400); margin-bottom: 1rem; }
+    .finding-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 0.875rem; display: flex; gap: 1rem; align-items: flex-start; }
+    .finding-card.blurred { filter: blur(4px); pointer-events: none; user-select: none; }
+    .severity-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .severity-dot.high { background: var(--red); }
+    .severity-dot.medium { background: var(--yellow); }
+    .severity-dot.low { background: var(--green); }
+    .finding-content h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
+    .finding-content p { font-size: 0.875rem; color: var(--gray-600); margin-bottom: 0.5rem; }
+    .finding-rec { font-size: 0.8rem; color: var(--blue); font-weight: 500; }
+    .severity-badge { margin-left: auto; flex-shrink: 0; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.2rem 0.6rem; border-radius: 999px; }
+    .severity-badge.high { background: #fef2f2; color: var(--red); }
+    .severity-badge.medium { background: #fffbeb; color: #b45309; }
+    .severity-badge.low { background: #ecfdf5; color: #065f46; }
+    .gate-card { display: none; background: var(--navy); color: var(--white); border-radius: 16px; padding: 2.5rem 2rem; text-align: center; margin-top: 1.5rem; }
+    .gate-card.active { display: block; }
+    .gate-card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.75rem; letter-spacing: -0.02em; }
+    .gate-card p { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 1.75rem; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .gate-form { display: flex; gap: 0.75rem; max-width: 480px; margin: 0 auto; }
+    .gate-form input[type="email"] { flex: 1; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 0.75rem 1rem; color: var(--white); font-family: 'Inter',sans-serif; font-size: 0.95rem; outline: none; }
+    .gate-form input[type="email"]::placeholder { color: rgba(255,255,255,0.3); }
+    .btn-gate { background: var(--blue); color: var(--white); border: none; padding: 0.75rem 1.25rem; border-radius: 8px; font-family: 'Inter',sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+    .btn-gate:hover { background: var(--blue-light); }
+    .gate-note { font-size: 0.75rem; color: rgba(255,255,255,0.3); margin-top: 1rem; }
+    .full-report { display: none; }
+    .full-report.active { display: block; }
+    .report-cta-card { background: linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 100%); border-radius: 16px; padding: 2.5rem 2rem; text-align: center; margin-top: 2rem; color: var(--white); }
+    .report-cta-card h3 { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .report-cta-card p { color: rgba(255,255,255,0.75); margin-bottom: 1.75rem; max-width: 440px; margin-left: auto; margin-right: auto; }
+    .btn-book { display: inline-block; background: var(--white); color: var(--blue); padding: 0.875rem 2rem; border-radius: 8px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: opacity 0.15s; }
+    .btn-book:hover { opacity: 0.9; }
+    .error-state { display: none; text-align: center; padding: 2rem; color: var(--red); font-size: 0.9rem; }
+    .error-state.active { display: block; }
+    .social-proof { background: var(--white); border-top: 1px solid var(--gray-200); padding: 3.5rem 2rem; text-align: center; }
+    .social-proof p { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-400); margin-bottom: 2rem; }
+    .proof-items { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+    .proof-item { text-align: center; }
+    .proof-item strong { display: block; font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; color: var(--navy); }
+    .proof-item span { font-size: 0.85rem; color: var(--gray-600); }
+    .how-section { padding: 4rem 2rem; max-width: 780px; margin: 0 auto; text-align: center; }
+    .section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin-bottom: 0.75rem; }
+    .how-section h2 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 3rem; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 2rem; }
+    .step { text-align: center; }
+    .step-num { width: 44px; height: 44px; background: rgba(37,99,235,0.1); color: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; margin: 0 auto 1rem; }
+    .step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .step p { font-size: 0.875rem; color: var(--gray-600); }
+    footer { background: var(--navy); color: rgba(255,255,255,0.4); text-align: center; padding: 2rem; font-size: 0.8rem; }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    footer a:hover { color: var(--white); }
+    @media (max-width: 580px) {
+      .url-input-row { flex-direction: column; padding: 0.75rem; }
+      .btn-audit { width: 100%; padding: 0.875rem; }
+      .gate-form { flex-direction: column; }
+      .btn-gate { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-logo" href="/">J Goins Consulting</a>
+    <a class="nav-cta" href="/#contact">Work with us &rarr;</a>
+  </nav>
+  <section class="hero">
+    <div class="hero-badge">Free Tool</div>
+    <h1>Get an instant <span>conversion audit</span> of your landing page</h1>
+    <p>Paste any URL. We'll analyze your page for CRO and UX issues that are costing you leads, enrollments, or sales.</p>
+    <div class="audit-form-wrap">
+      <div class="url-input-row">
+        <input type="url" id="urlInput" placeholder="https://yoursite.com/landing-page" autocomplete="off" />
+        <button class="btn-audit" id="auditBtn" onclick="startAudit()">Audit My Page</button>
+      </div>
+      <p class="hero-note">Free &middot; No account required &middot; Takes about 15 seconds</p>
+    </div>
+    <div class="loading-state" id="loadingState">
+      <div class="spinner"></div>
+      <ul class="loading-steps" id="loadingSteps">
+        <li id="step1">Fetching your page</li>
+        <li id="step2">Analyzing above the fold</li>
+        <li id="step3">Checking CTA placement &amp; hierarchy</li>
+        <li id="step4">Scoring mobile experience</li>
+        <li id="step5">Generating your findings</li>
+      </ul>
+    </div>
+    <div class="error-state" id="errorState">
+      <p id="errorMsg">Something went wrong. Please check the URL and try again.</p>
+    </div>
+  </section>
+  <section class="results-section" id="resultsSection">
+    <div class="results-header">
+      <h2 id="resultsTitle">Your Audit Results</h2>
+      <p id="resultsUrl" style="color:#2563eb;font-weight:500;margin-bottom:0.5rem;"></p>
+      <p>Here's what we found on your page.</p>
+    </div>
+    <div class="score-ring-wrap">
+      <div class="score-ring">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#e5e7eb" stroke-width="10"/>
+          <circle id="scoreArc" cx="60" cy="60" r="50" fill="none" stroke="#2563eb" stroke-width="10"
+            stroke-dasharray="314" stroke-dashoffset="314" stroke-linecap="round"
+            style="transition:stroke-dashoffset 1s ease;"/>
+        </svg>
+        <div class="score-ring-label">
+          <span class="score-number" id="scoreNum">-</span>
+          <span class="score-label">Score</span>
+        </div>
+      </div>
+    </div>
+    <div class="findings-label">Issues Found</div>
+    <div id="freeFindings"></div>
+    <div id="blurredTeaser"></div>
+    <div class="gate-card" id="gateCard">
+      <h3>You have <span id="remainingCount">3</span> more findings</h3>
+      <p>Enter your email to unlock the full report - including a prioritized fix list and what to do first.</p>
+      <div class="gate-form">
+        <input type="email" id="gateEmail" placeholder="you@yourcompany.com" />
+        <button class="btn-gate" onclick="unlockReport()">Unlock Full Report</button>
+      </div>
+      <p class="gate-note">No spam. Just your report.</p>
+    </div>
+    <div class="full-report" id="fullReport">
+      <div class="findings-label" style="margin-top:1.5rem;">Additional Findings</div>
+      <div id="gatedFindings"></div>
+      <div class="report-cta-card">
+        <h3>Want these fixed?</h3>
+        <p>We specialize in turning broken enrollment and lead gen funnels into conversion machines. Book a free 20-minute strategy call.</p>
+        <a href="https://calendly.com/jgoinsconsulting/discovery" class="btn-book" target="_blank">Book a Free Strategy Call</a>
+      </div>
+    </div>
+  </section>
+  <section class="how-section">
+    <p class="section-label">How It Works</p>
+    <h2>A real audit in under 30 seconds</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Paste your URL</h3><p>Any landing page, homepage, or enrollment page.</p></div>
+      <div class="step"><div class="step-num">2</div><h3>We analyze it</h3><p>AI scans for CRO issues, UX gaps, and conversion blockers.</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Get your findings</h3><p>Prioritized by impact, with specific recommendations.</p></div>
+    </div>
+  </section>
+  <div class="social-proof">
+    <p>What we look for</p>
+    <div class="proof-items">
+      <div class="proof-item"><strong>CTA</strong><span>Placement &amp; hierarchy</span></div>
+      <div class="proof-item"><strong>Above</strong><span>The fold experience</span></div>
+      <div class="proof-item"><strong>Mobile</strong><span>UX &amp; load performance</span></div>
+      <div class="proof-item"><strong>Trust</strong><span>Signals &amp; social proof</span></div>
+      <div class="proof-item"><strong>Copy</strong><span>Value prop clarity</span></div>
+    </div>
+  </div>
+  <footer>
+    <p>&copy; 2025 J Goins Consulting &middot; <a href="/">Home</a> &middot; <a href="mailto:hello@jgoinsconsulting.com">hello@jgoinsconsulting.com</a></p>
+  </footer>
+  <script>
+    let allFindings = [];
+    let auditedUrl = '';
+    async function startAudit() {
+      const urlInput = document.getElementById('urlInput');
+      const url = urlInput.value.trim();
+      if (!url) { alert('Please enter a URL first.'); return; }
+      let parsedUrl;
+      try { parsedUrl = new URL(url.startsWith('http') ? url : 'https://' + url); }
+      catch { alert('Please enter a valid URL.'); return; }
+      auditedUrl = parsedUrl.href;
+      document.getElementById('auditBtn').disabled = true;
+      document.getElementById('loadingState').classList.add('active');
+      document.getElementById('errorState').classList.remove('active');
+      document.getElementById('resultsSection').classList.remove('active');
+      const steps = ['step1','step2','step3','step4','step5'];
+      let i = 0;
+      const stepInterval = setInterval(() => {
+        if (i > 0) { document.getElementById(steps[i-1]).classList.remove('active'); document.getElementById(steps[i-1]).classList.add('done'); }
+        if (i < steps.length) { document.getElementById(steps[i]).classList.add('active'); i++; }
+        else { clearInterval(stepInterval); }
+      }, 2200);
+      try {
+        const res = await fetch('/api/audit', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({url: auditedUrl}) });
+        clearInterval(stepInterval);
+        steps.forEach(s => { document.getElementById(s).classList.remove('active'); document.getElementById(s).classList.add('done'); });
+        if (!res.ok) { const err = await res.json(); throw new Error(err.error || 'Audit failed'); }
+        const data = await res.json();
+        allFindings = data.findings || [];
+        renderResults(data, auditedUrl);
+      } catch(err) {
+        clearInterval(stepInterval);
+        document.getElementById('loadingState').classList.remove('active');
+        document.getElementById('errorState').classList.add('active');
+        document.getElementById('errorMsg').textContent = err.message || 'Something went wrong. Please try again.';
+      } finally { document.getElementById('auditBtn').disabled = false; }
+    }
+    function renderResults(data, url) {
+      document.getElementById('loadingState').classList.remove('active');
+      const score = data.score || 50;
+      document.getElementById('scoreNum').textContent = score;
+      const arc = document.getElementById('scoreArc');
+      const offset = 314 - (score / 100) * 314;
+      setTimeout(() => { arc.style.strokeDashoffset = offset; }, 100);
+      const scoreEl = document.getElementById('scoreNum');
+      if (score >= 70) scoreEl.style.color = '#10b981';
+      else if (score >= 45) scoreEl.style.color = '#f59e0b';
+      else scoreEl.style.color = '#ef4444';
+      document.getElementById('resultsUrl').textContent = url;
+      document.getElementById('resultsTitle').textContent = 'Audit results for:';
+      const free = allFindings.slice(0,3);
+      const gated = allFindings.slice(3);
+      const freeContainer = document.getElementById('freeFindings');
+      freeContainer.innerHTML = '';
+      free.forEach(f => { freeContainer.innerHTML += findingHTML(f); });
+      const blurContainer = document.getElementById('blurredTeaser');
+      blurContainer.innerHTML = '';
+      if (gated.length > 0) { blurContainer.innerHTML = '<div class="finding-card blurred">' + findingHTML(gated[0], true) + '</div>'; }
+      if (gated.length > 0) { document.getElementById('remainingCount').textContent = gated.length; document.getElementById('gateCard').classList.add('active'); }
+      document.getElementById('resultsSection').classList.add('active');
+      document.getElementById('resultsSection').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    function findingHTML(f, inner) {
+      const sev = (f.severity || 'medium').toLowerCase();
+      return (inner ? '' : '<div class="finding-card">') +
+        '<div class="severity-dot ' + sev + '"></div>' +
+        '<div class="finding-content"><h3>' + (f.title||'Issue Found') + '</h3><p>' + (f.description||'') + '</p>' +
+        (f.recommendation ? '<p class="finding-rec">&#8594; ' + f.recommendation + '</p>' : '') +
+        '</div><span class="severity-badge ' + sev + '">' + sev + '</span>' +
+        (inner ? '' : '</div>');
+    }
+    async function unlockReport() {
+      const email = document.getElementById('gateEmail').value.trim();
+      if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+      try { await fetch('/api/subscribe', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({email, source:'audit-tool', url: auditedUrl}) }); } catch {}
+      document.getElementById('gateCard').classList.remove('active');
+      document.getElementById('blurredTeaser').innerHTML = '';
+      const gated = allFindings.slice(3);
+      const gatedContainer = document.getElementById('gatedFindings');
+      gatedContainer.innerHTML = '';
+      gated.forEach(f => { gatedContainer.innerHTML += findingHTML(f); });
+      document.getElementById('fullReport').classList.add('active');
+    }
+    document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') startAudit(); });
+  </script>
+</body>
+</html>
